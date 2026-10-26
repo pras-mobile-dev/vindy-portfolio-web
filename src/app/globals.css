@@ -1,26 +1,88 @@
 @import "tailwindcss";
 
+/*
+  Design tokens.
+  Palette is deliberately narrow: near-black / white / slate, plus a single
+  emerald accent. No gradients, no decorative colour.
+*/
+@theme {
+  --color-ink-950: #0b0f14;
+  --color-ink-900: #11161d;
+  --color-ink-800: #1a212b;
+  --color-ink-700: #232c38;
+  --color-ink-600: #38424f;
+  --color-ink-500: #55606f;
+  /* Darkened from #7c8798 so muted labels clear WCAG AA (4.5:1) on white. */
+  --color-ink-400: #667283;
+  --color-ink-300: #a6b0be;
+  --color-ink-200: #cbd2db;
+  --color-ink-100: #e6e9ee;
+  --color-ink-50: #f6f7f9;
+
+  --color-accent-700: #047857;
+  --color-accent-600: #059669;
+  --color-accent-500: #10b981;
+  --color-accent-100: #d1fae5;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, "SF Mono", Menlo, monospace;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html {
+  scroll-behavior: smooth;
+  /* Keep anchored sections clear of the sticky header. */
+  scroll-padding-top: 5.5rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #ffffff;
+  color: var(--color-ink-950);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* A single, consistent focus ring for keyboard users. */
+:focus-visible {
+  outline: 2px solid var(--color-accent-600);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+::selection {
+  background-color: var(--color-accent-100);
+  color: var(--color-ink-950);
+}
+
+/* Small caps label used above section headings. */
+@utility eyebrow {
+  font-size: 0.75rem;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink-400);
+}
+
+/* Prevents long URLs and code strings from breaking the layout on mobile. */
+@utility break-anywhere {
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
